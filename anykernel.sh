@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=NOVA-KERNEL
+kernel.string=NOVA-KERNEL-MUNCH
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -35,7 +35,7 @@ set_perm_recursive 0 0 750 750 $ramdisk/*;
 
 
 ## AnyKernel install
-split_boot;
+dump_boot;
 
 # Begin Ramdisk Changes
 
@@ -44,7 +44,7 @@ if [ -d $ramdisk/overlay ]; then
   rm -rf $ramdisk/overlay;
 fi;
 
-flash_boot;
+write_boot;
 ## end install
 
 ## vendor_boot shell variables
@@ -57,7 +57,7 @@ patch_vbmeta_flag=auto;
 reset_ak;
 
 # vendor_boot install
-split_boot;
+dump_boot;
 
-flash_boot;
+write_boot;
 ## end vendor_boot install
