@@ -4,35 +4,39 @@
 ## AnyKernel setup
 # begin properties
 properties() { '
-kernel.string=NOVA-KERNEL-MUNCH
+kernel.string=NOVA Kernel by Project 113
 do.devicecheck=1
 do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
 device.name1=munch
-device.name2=
-device.name3=
-device.name4=
-device.name5=
+device.name2=munchin
+device.name3=alioth
+device.name4=aliothin
+device.name5=apollo
+device.name6=apollon
 supported.versions=
 '; } # end properties
 
-# shell variables
 block=/dev/block/bootdevice/by-name/boot;
-is_slot_device=1;
 ramdisk_compression=auto;
 
+is_apollo=0;
+
+if [ $is_apollo == "1" ]; then
+  is_slot_device=0;
+else
+  is_slot_device=1;
+fi;
 
 ## AnyKernel methods (DO NOT CHANGE)
 # import patching functions/variables - see for reference
 . tools/ak3-core.sh;
 
-
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
 set_perm_recursive 0 0 750 750 $ramdisk/*;
-
 
 ## AnyKernel install
 dump_boot;
@@ -47,17 +51,19 @@ fi;
 write_boot;
 ## end install
 
-## vendor_boot shell variables
-block=/dev/block/bootdevice/by-name/vendor_boot;
-is_slot_device=1;
-ramdisk_compression=auto;
-patch_vbmeta_flag=auto;
+if [ $is_apollo == "0" ]; then 
+  ## vendor_boot shell variables
+  block=/dev/block/bootdevice/by-name/vendor_boot;
+  is_slot_device=1;
+  ramdisk_compression=auto;
+  patch_vbmeta_flag=auto;
 
-# reset for vendor_boot patching
-reset_ak;
+  # reset for vendor_boot patching
+  reset_ak;
 
-# vendor_boot install
-dump_boot;
+  # vendor_boot install
+  dump_boot;
 
-write_boot;
-## end vendor_boot install
+  write_boot;
+  ## end vendor_boot install
+fi;
