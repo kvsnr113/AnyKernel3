@@ -1,49 +1,31 @@
 # AnyKernel3 Ramdisk Mod Script
 # osm0sis @ xda-developers
 
+properties() { '
+kernel.string=NOVA Kernel by Project 113
+do.devicecheck=1
+do.modules=0
+do.systemless=1
+do.cleanup=1
+do.cleanuponabort=0
+device.name1=alioth
+device.name2=aliothin
+supported.versions=
+'; }
+
 is_apollo=0;
 is_munch=0;
-is_alioth=0;
+is_alioth=1;
 
 block=/dev/block/bootdevice/by-name/boot;
 ramdisk_compression=auto;
 
 if [ $is_apollo == "1" ]; then
   is_slot_device=0;
-  properties() { '
-  kernel.string=NOVA Kernel by Project 113
-  do.devicecheck=1
-  do.modules=0
-  do.systemless=1
-  do.cleanup=1
-  do.cleanuponabort=0
-  device.name1=apollo
-  device.name2=apollon
-  supported.versions= '; }
 elif [ $is_munch == "1" ]; then
   is_slot_device=1;
-  properties() { '
-  kernel.string=NOVA Kernel by Project 113
-  do.devicecheck=1
-  do.modules=0
-  do.systemless=1
-  do.cleanup=1
-  do.cleanuponabort=0
-  device.name1=munch
-  device.name2=munchin
-  supported.versions= '; }
 elif [ $is_alioth == "1" ]; then
   is_slot_device=1;
-  properties() { '
-  kernel.string=NOVA Kernel by Project 113
-  do.devicecheck=1
-  do.modules=0
-  do.systemless=1
-  do.cleanup=1
-  do.cleanuponabort=0
-  device.name1=alioth
-  device.name2=aliothin
-  supported.versions= '; }
 fi;
 
 ## AnyKernel methods (DO NOT CHANGE)
