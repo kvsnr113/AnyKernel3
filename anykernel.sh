@@ -2,7 +2,7 @@
 # osm0sis @ xda-developers
 
 properties() { '
-kernel.string=NOVA Kernel by Project 113
+kernel.string=E404 Kernel by Project 113
 do.devicecheck=1
 do.modules=0
 do.systemless=1
@@ -35,6 +35,70 @@ fi;
 ## AnyKernel file attributes
 # set permissions/ownership for included ramdisk files
 set_perm_recursive 0 0 750 750 $ramdisk/*;
+
+ui_print " ";
+
+case "$ZIPFILE" in
+  *miui*|*MIUI*)
+    ui_print "MIUI/HyperOS DTBO variant detected. ";
+    ui_print "Using MIUI/HyperOS DTBO... ";
+    mv miuidtbo.img $home/dtbo.img
+    rm aospdtbo.img
+    ;;
+  *aosp*|*AOSP*)
+    ui_print "Normal DTBO variant detected.";
+    ui_print "Using Normal DTBO... ";
+    mv aospdtbo.img $home/dtbo.img
+    rm miuidtbo.img
+    ;;
+  *)
+    ui_print "Normal DTBO variant detected.";
+    ui_print "Using Normal DTBO... ";
+    mv aospdtbo.img $home/dtbo.img
+    rm miuidtbo.img
+    ;;
+esac
+
+case "$ZIPFILE" in
+  *noksu*|*NOKSU*)
+    ui_print "Non-KernelSU variant detected.";
+    if [[ -d /data/adb/magisk ]]; then
+      ui_print "Magisk Detected, Cleaning up KernelSU leftovers...";
+      rm -rf /data/adb/ksu
+      ui_print "Uninstalling KernelSU App...";
+      pm uninstall me.weishu.kernelsu
+    fi
+    ;;
+  *ksu*|*KSU*)
+    ui_print "KernelSU variant detected.";
+    if [[ -d /data/adb/magisk ]]; then
+      ui_print "Magisk Detected, please uninstall Magisk for KSU to work properly !";
+    fi
+    ;;
+  *)
+    ui_print "Non-KernelSU variant detected.";
+    if [[ -d /data/adb/magisk ]]; then
+      ui_print "Magisk Detected, Cleaning up KernelSU leftovers...";
+      rm -rf /data/adb/ksu
+      ui_print "Uninstalling KernelSU App...";
+      pm uninstall me.weishu.kernelsu
+    fi
+esac
+
+case "$ZIPFILE" in
+  *effcpu*|*EFFCPU*)
+    ui_print "EffCPU variant is detected.";
+    ui_print "Using EffCPU DTB...";
+    mv effcpu-dtb $home/dtb
+    rm normal-dtb
+    ;;
+  *)
+    ui_print "Normal CPU variant is detected.";
+    ui_print "Using Normal DTB...";
+    mv normal-dtb $home/dtb
+    rm effcpu-dtb
+    ;;
+esac
 
 ## AnyKernel install
 dump_boot;

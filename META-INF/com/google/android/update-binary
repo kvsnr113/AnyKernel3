@@ -300,7 +300,7 @@ do_devicecheck() {
   for testname in $(grep '^device.name.*=' anykernel.sh | cut -d= -f2-); do
     for devicename in $device $product $vendordevice $vendorproduct; do
       if [ "$devicename" == "$testname" ]; then
-        ui_print "$testname" " ";
+        #ui_print "$testname" " ";
         match=1;
         break 2;
       fi;
@@ -558,7 +558,10 @@ do_versioncheck;
 do_levelcheck;
 do_vendorlevelcheck;
 
+ui_print " ";
 ui_print "Installing...";
+ui_print " ";
+
 # hack to maintain support for anykernel.sh files that weren't updated correctly along with the AK core
 CORE=$(grep -oE 'ak.*core.sh' anykernel.sh);
 [ -f tools/$CORE ] || ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
