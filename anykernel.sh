@@ -58,6 +58,7 @@ case "$ZIPFILE" in
     rm *miuidtbo.img
     ;;
 esac
+ui_print " ";
 
 case "$ZIPFILE" in
   *noksu*|*NOKSU*)
@@ -84,17 +85,18 @@ case "$ZIPFILE" in
       pm uninstall me.weishu.kernelsu
     fi
 esac
+ui_print " ";
 
 case "$ZIPFILE" in
   *effcpu*|*EFFCPU*)
-    ui_print "Eff CPUFreq variant is detected.";
-    ui_print "Using EffCPU DTB...";
+    ui_print "Efficient CPUFreq variant detected.";
+    ui_print "Using Efficient CPUFreq DTB...";
     mv effcpu-dtb $home/dtb
     rm normal-dtb
     ;;
   *)
-    ui_print "Normal CPUFreq variant is detected.";
-    ui_print "Using Normal DTB...";
+    ui_print "Normal CPUFreq variant detected.";
+    ui_print "Using Normal CPUFreq DTB...";
     mv normal-dtb $home/dtb
     rm effcpu-dtb
     ;;
