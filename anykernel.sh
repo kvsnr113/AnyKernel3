@@ -42,20 +42,20 @@ case "$ZIPFILE" in
   *miui*|*MIUI*)
     ui_print "MIUI/HyperOS DTBO variant detected. ";
     ui_print "Using MIUI/HyperOS DTBO... ";
-    mv miuidtbo.img $home/dtbo.img
-    rm aospdtbo.img
+    mv *miuidtbo.img $home/dtbo.img
+    rm *aospdtbo.img
     ;;
   *aosp*|*AOSP*)
     ui_print "Normal DTBO variant detected.";
     ui_print "Using Normal DTBO... ";
-    mv aospdtbo.img $home/dtbo.img
-    rm miuidtbo.img
+    mv *aospdtbo.img $home/dtbo.img
+    rm *miuidtbo.img
     ;;
   *)
     ui_print "Normal DTBO variant detected.";
     ui_print "Using Normal DTBO... ";
-    mv aospdtbo.img $home/dtbo.img
-    rm miuidtbo.img
+    mv *aospdtbo.img $home/dtbo.img
+    rm *miuidtbo.img
     ;;
 esac
 
@@ -65,7 +65,7 @@ case "$ZIPFILE" in
     if [[ -d /data/adb/magisk ]]; then
       ui_print "Magisk Detected, Cleaning up KernelSU leftovers...";
       rm -rf /data/adb/ksu
-      ui_print "Uninstalling KernelSU App...";
+      ui_print "Uninstalling KernelSU App (if exist)...";
       pm uninstall me.weishu.kernelsu
     fi
     ;;
@@ -80,20 +80,20 @@ case "$ZIPFILE" in
     if [[ -d /data/adb/magisk ]]; then
       ui_print "Magisk Detected, Cleaning up KernelSU leftovers...";
       rm -rf /data/adb/ksu
-      ui_print "Uninstalling KernelSU App...";
+      ui_print "Uninstalling KernelSU App (if exist)...";
       pm uninstall me.weishu.kernelsu
     fi
 esac
 
 case "$ZIPFILE" in
   *effcpu*|*EFFCPU*)
-    ui_print "EffCPU variant is detected.";
+    ui_print "Eff CPUFreq variant is detected.";
     ui_print "Using EffCPU DTB...";
     mv effcpu-dtb $home/dtb
     rm normal-dtb
     ;;
   *)
-    ui_print "Normal CPU variant is detected.";
+    ui_print "Normal CPUFreq variant is detected.";
     ui_print "Using Normal DTB...";
     mv normal-dtb $home/dtb
     rm effcpu-dtb

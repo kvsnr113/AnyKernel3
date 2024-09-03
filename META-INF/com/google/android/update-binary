@@ -300,7 +300,7 @@ do_devicecheck() {
   for testname in $(grep '^device.name.*=' anykernel.sh | cut -d= -f2-); do
     for devicename in $device $product $vendordevice $vendorproduct; do
       if [ "$devicename" == "$testname" ]; then
-        #ui_print "$testname" " ";
+        ui_print "$testname" " ";
         match=1;
         break 2;
       fi;
