@@ -37,53 +37,45 @@ fi;
 set_perm_recursive 0 0 750 750 $ramdisk/*;
 
 ui_print " ";
+ui_print "Kernel Naming : "$ZIPFILE" ";
+ui_print " ";
 
 case "$ZIPFILE" in
   *miui*|*MIUI*)
     ui_print "MIUI/HyperOS DTBO variant detected. ";
     ui_print "Using MIUI/HyperOS DTBO... ";
-    mv *miuidtbo.img $home/dtbo.img
-    rm *aospdtbo.img
+    mv *-miui-dtbo.img $home/dtbo.img
+    rm *-normal-dtbo.img
     ;;
-  *aosp*|*AOSP*)
+  *|*aosp*|*AOSP*)
     ui_print "Normal DTBO variant detected.";
     ui_print "Using Normal DTBO... ";
-    mv *aospdtbo.img $home/dtbo.img
-    rm *miuidtbo.img
-    ;;
-  *)
-    ui_print "Normal DTBO variant detected.";
-    ui_print "Using Normal DTBO... ";
-    mv *aospdtbo.img $home/dtbo.img
-    rm *miuidtbo.img
+    mv *-normal-dtbo.img $home/dtbo.img
+    rm *-miui-dtbo.img
     ;;
 esac
 ui_print " ";
 
 case "$ZIPFILE" in
-  *noksu*|*NOKSU*)
+  *|*noksu*|*NOKSU*)
     ui_print "Non-KernelSU variant detected.";
-    if [[ -d /data/adb/magisk ]]; then
-      ui_print "Magisk Detected, Cleaning up KernelSU leftovers...";
-      rm -rf /data/adb/ksu
-      ui_print "Uninstalling KernelSU App (if exist)...";
-      pm uninstall me.weishu.kernelsu
-    fi
+    ui_print "Using Non-KernelSU Kernel Image...";
+    mv *-noksu-Image $home/Image
+    rm *-ksu-Image
+    ui_print "Cleaning up KernelSU leftovers...";
+    rm -rf /data/adb/ksu*
+    rm -rf /data/data/me.weishu.kernelsu
+    rm -rf /data/app/*/me.weishu.kernelsu*
     ;;
   *ksu*|*KSU*)
     ui_print "KernelSU variant detected.";
+    ui_print "Using KernelSU Kernel Image...";
+    mv *-ksu-Image $home/Image
+    rm *-noksu-Image
     if [[ -d /data/adb/magisk ]]; then
-      ui_print "Magisk Detected, please uninstall Magisk for KSU to work properly !";
+      ui_print "Magisk detected, please remove Magisk to work properly !";
     fi
     ;;
-  *)
-    ui_print "Non-KernelSU variant detected.";
-    if [[ -d /data/adb/magisk ]]; then
-      ui_print "Magisk Detected, Cleaning up KernelSU leftovers...";
-      rm -rf /data/adb/ksu
-      ui_print "Uninstalling KernelSU App (if exist)...";
-      pm uninstall me.weishu.kernelsu
-    fi
 esac
 ui_print " ";
 
@@ -91,14 +83,14 @@ case "$ZIPFILE" in
   *effcpu*|*EFFCPU*)
     ui_print "Efficient CPUFreq variant detected.";
     ui_print "Using Efficient CPUFreq DTB...";
-    mv effcpu-dtb $home/dtb
-    rm normal-dtb
+    mv *-effcpu-dtb $home/dtb
+    rm *-normal-dtb
     ;;
   *)
     ui_print "Normal CPUFreq variant detected.";
     ui_print "Using Normal CPUFreq DTB...";
-    mv normal-dtb $home/dtb
-    rm effcpu-dtb
+    mv *-normal-dtb $home/dtb
+    rm *-effcpu-dtb
     ;;
 esac
 
