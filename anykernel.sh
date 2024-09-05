@@ -8,13 +8,13 @@ do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=apollo
-device.name2=apollon
+device.name1=munch
+device.name2=munchin
 supported.versions=
 '; }
 
-is_apollo=1;
-is_munch=0;
+is_apollo=0;
+is_munch=1;
 is_alioth=0;
 
 block=/dev/block/bootdevice/by-name/boot;
@@ -47,8 +47,14 @@ case "$ZIPFILE" in
     mv *-miui-dtbo.img $home/dtbo.img
     rm *-normal-dtbo.img
     ;;
-  *|*aosp*|*AOSP*)
+  *aosp*|*AOSP*)
     ui_print "Normal DTBO variant detected.";
+    ui_print "Using Normal DTBO... ";
+    mv *-normal-dtbo.img $home/dtbo.img
+    rm *-miui-dtbo.img
+	;;
+  *)
+    ui_print "DTBO is not specified !!!";
     ui_print "Using Normal DTBO... ";
     mv *-normal-dtbo.img $home/dtbo.img
     rm *-miui-dtbo.img
@@ -57,18 +63,24 @@ esac
 ui_print " ";
 
 case "$ZIPFILE" in
+  *noksu*|*NOKSU*)
+    ui_print "Non-KernelSU variant detected.";
+    ui_print "Using Non-KernelSU Kernel Image...";
+    mv *-noksu-Image $home/Image
+    rm *-ksu-Image
+    ;;
   *ksu*|*KSU*)
     ui_print "KernelSU variant detected.";
     ui_print "Using KernelSU Kernel Image...";
     mv *-ksu-Image $home/Image
     rm *-noksu-Image
     ;;
-    *|*noksu*|*NOKSU*)
-    ui_print "Non-KernelSU variant detected.";
+  *)
+	ui_print "KernelSU is not specified !!!";
     ui_print "Using Non-KernelSU Kernel Image...";
-    mv *-noksu-Image $home/Image
+	mv *-noksu-Image $home/Image
     rm *-ksu-Image
-    ;;
+	;;
 esac
 ui_print " ";
 
