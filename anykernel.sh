@@ -8,13 +8,13 @@ do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=munch
-device.name2=munchin
+device.name1=apollo
+device.name2=apollon
 supported.versions=
 '; }
 
-is_apollo=0;
-is_munch=1;
+is_apollo=1;
+is_munch=0;
 is_alioth=0;
 
 block=/dev/block/bootdevice/by-name/boot;
@@ -57,24 +57,17 @@ esac
 ui_print " ";
 
 case "$ZIPFILE" in
-  *|*noksu*|*NOKSU*)
-    ui_print "Non-KernelSU variant detected.";
-    ui_print "Using Non-KernelSU Kernel Image...";
-    mv *-noksu-Image $home/Image
-    rm *-ksu-Image
-    ui_print "Cleaning up KernelSU leftovers...";
-    rm -rf /data/adb/ksu*
-    rm -rf /data/data/me.weishu.kernelsu
-    rm -rf /data/app/*/me.weishu.kernelsu*
-    ;;
   *ksu*|*KSU*)
     ui_print "KernelSU variant detected.";
     ui_print "Using KernelSU Kernel Image...";
     mv *-ksu-Image $home/Image
     rm *-noksu-Image
-    if [[ -d /data/adb/magisk ]]; then
-      ui_print "Magisk detected, please remove Magisk to work properly !";
-    fi
+    ;;
+    *|*noksu*|*NOKSU*)
+    ui_print "Non-KernelSU variant detected.";
+    ui_print "Using Non-KernelSU Kernel Image...";
+    mv *-noksu-Image $home/Image
+    rm *-ksu-Image
     ;;
 esac
 ui_print " ";
