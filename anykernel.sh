@@ -8,14 +8,14 @@ do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=alioth
-device.name2=aliothin
+device.name1=munch
+device.name2=munchin
 supported.versions=
 '; }
 
 is_apollo=0;
-is_munch=0;
-is_alioth=1;
+is_munch=1;
+is_alioth=0;
 
 block=/dev/block/bootdevice/by-name/boot;
 ramdisk_compression=auto;
@@ -76,9 +76,9 @@ case "$ZIPFILE" in
     rm *-noksu-Image
   ;;
   *)
-	  ui_print "KernelSU is not specified !!!";
+    ui_print "KernelSU is not specified !!!";
     ui_print "Using Non-KernelSU Kernel Image...";
-	  mv *-noksu-Image $home/Image
+    mv *-noksu-Image $home/Image
     rm *-ksu-Image
   ;;
 esac
