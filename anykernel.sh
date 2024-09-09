@@ -99,6 +99,11 @@ case "$ZIPFILE" in
   ;;
 esac
 
+ui_print " ";
+ui_print "Configuring Uclamp Task Profiles... ";
+mv "$ZIPFILE"/task_profiles.json /system/vendor/etc
+chmod 644 /system/vendor/etc/task_profiles.json
+
 ## AnyKernel install
 dump_boot;
 
