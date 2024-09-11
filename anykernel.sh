@@ -42,67 +42,68 @@ ui_print " ";
 
 case "$ZIPFILE" in
   *miui*|*MIUI*)
-    ui_print "MIUI/HyperOS DTBO variant detected. ";
+    ui_print "MIUI/HyperOS DTBO variant detected,";
     ui_print "Using MIUI/HyperOS DTBO... ";
-    mv *-miui-dtbo.img $home/dtbo.img
-    rm *-normal-dtbo.img
+    mv *-miui-dtbo.img $home/dtbo.img;
+    rm *-normal-dtbo.img;
   ;;
   *aosp*|*AOSP*)
-    ui_print "Normal DTBO variant detected.";
+    ui_print "Normal DTBO variant detected,";
     ui_print "Using Normal DTBO... ";
-    mv *-normal-dtbo.img $home/dtbo.img
-    rm *-miui-dtbo.img
+    mv *-normal-dtbo.img $home/dtbo.img;
+    rm *-miui-dtbo.img;
   ;;
   *)
     ui_print "DTBO is not specified !!!";
     ui_print "Using Normal DTBO... ";
-    mv *-normal-dtbo.img $home/dtbo.img
-    rm *-miui-dtbo.img
+    mv *-normal-dtbo.img $home/dtbo.img;
+    rm *-miui-dtbo.img;
   ;;
 esac
 ui_print " ";
 
 case "$ZIPFILE" in
   *noksu*|*NOKSU*)
-    ui_print "Non-KernelSU variant detected.";
+    ui_print "Non-KernelSU variant detected,";
     ui_print "Using Non-KernelSU Kernel Image...";
     mv *-noksu-Image $home/Image
     rm *-ksu-Image
   ;;
   *ksu*|*KSU*)
-    ui_print "KernelSU variant detected.";
+    ui_print "KernelSU variant detected,";
     ui_print "Using KernelSU Kernel Image...";
-    mv *-ksu-Image $home/Image
-    rm *-noksu-Image
+    mv *-ksu-Image $home/Image;
+    rm *-noksu-Image;
   ;;
   *)
     ui_print "KernelSU is not specified !!!";
     ui_print "Using Non-KernelSU Kernel Image...";
-    mv *-noksu-Image $home/Image
-    rm *-ksu-Image
+    mv *-noksu-Image $home/Image;
+    rm *-ksu-Image;
   ;;
 esac
 ui_print " ";
 
 case "$ZIPFILE" in
   *effcpu*|*EFFCPU*)
-    ui_print "Efficient CPUFreq variant detected.";
+    ui_print "Efficient CPUFreq variant detected,";
     ui_print "Using Efficient CPUFreq DTB...";
-    mv *-effcpu-dtb $home/dtb
-    rm *-normal-dtb
+    mv *-effcpu-dtb $home/dtb;
+    rm *-normal-dtb;
   ;;
   *)
-    ui_print "Normal CPUFreq variant detected.";
+    ui_print "Normal CPUFreq variant detected,";
     ui_print "Using Normal CPUFreq DTB...";
-    mv *-normal-dtb $home/dtb
-    rm *-effcpu-dtb
+    mv *-normal-dtb $home/dtb;
+    rm *-effcpu-dtb;
   ;;
 esac
-
 ui_print " ";
-ui_print "Configuring Uclamp Task Profiles... ";
-mv "$ZIPFILE"/task_profiles.json /system/vendor/etc
-chmod 644 /system/vendor/etc/task_profiles.json
+
+if [ ! -f /vendor/etc/task_profiles.json ]; then
+	ui_print "Cannot find Uclamp task profiles !";
+	ui_print "Please install Uclamp task profiles module !";
+fi;
 
 ## AnyKernel install
 dump_boot;
