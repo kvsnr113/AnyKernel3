@@ -66,8 +66,8 @@ case "$ZIPFILE" in
   *noksu*|*NOKSU*)
     ui_print "Non-KernelSU variant detected,";
     ui_print "Using Non-KernelSU Kernel Image...";
-    mv *-noksu-Image $home/Image
-    rm *-ksu-Image
+    mv *-noksu-Image $home/Image;
+    rm *-ksu-Image;
   ;;
   *ksu*|*KSU*)
     ui_print "KernelSU variant detected,";
