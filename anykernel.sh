@@ -98,9 +98,9 @@ case "$ZIPFILE" in
     rm *-effcpu-dtb;
   ;;
 esac
-ui_print " ";
 
 if [ ! -f /vendor/etc/task_profiles.json ]; then
+  ui_print " ";
 	ui_print "Cannot find Uclamp task profiles !";
 	ui_print "Please install Uclamp task profiles module !";
 fi;
