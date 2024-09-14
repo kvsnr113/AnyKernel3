@@ -99,7 +99,7 @@ case "$ZIPFILE" in
   ;;
 esac
 
-if [ ! -f /vendor/etc/task_profiles.json ]; then
+if [ ! -f /vendor/etc/task_profiles.json ] || [ ! -d /data/adb/modules/taskprofiles ]; then
   ui_print " ";
 	ui_print "Cannot find Uclamp task profiles !";
 	ui_print "Please install Uclamp task profiles module !";
