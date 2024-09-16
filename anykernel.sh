@@ -8,13 +8,13 @@ do.modules=0
 do.systemless=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=munch
-device.name2=munchin
+device.name1=apollo
+device.name2=apollon
 supported.versions=
 '; }
 
-is_apollo=0;
-is_munch=1;
+is_apollo=1;
+is_munch=0;
 is_alioth=0;
 
 block=/dev/block/bootdevice/by-name/boot;
@@ -99,10 +99,11 @@ case "$ZIPFILE" in
   ;;
 esac
 
-if [ ! -e /vendor/etc/task_profiles.json ] && [ ! -e /data/adb/modules/taskprofiles ]; then
+if [ ! -f /vendor/etc/task_profiles.json ]; then
   ui_print " ";
-	ui_print "Cannot find Uclamp task profiles !";
+	ui_print "Your rom does not have Uclamp task profiles,";
 	ui_print "Please install Uclamp task profiles module !";
+  ui_print "Ignore this if you already have.";
 fi;
 
 ## AnyKernel install
