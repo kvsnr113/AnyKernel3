@@ -242,23 +242,51 @@ else
   # devicecheck (problematc)
 fi
 
-sleep 0.5
-if [[ "$SIDELOAD" == "1" ]]; then
-  ui_print " " " ! Sideloading Detected, Overriding to Manual Configuration !"
-  configure_manual
-else
-  choose_config_mode
-fi
-
 mv *-Image $home/Image
 mv *-dtb $home/dtb
 mv *-dtbo.img $home/dtbo.img
 
 dump_boot
 
+if [ -f "$split_img/cmdline.txt" ]; then
+  existing_args=$(grep -o 'e404_args=[^ ]*' $split_img/cmdline.txt 2>/dev/null)
+else
+  existing_args=$(grep "^cmdline=" $split_img/header 2>/dev/null | cut -d= -f2- | grep -o 'e404_args=[^ ]*')
+fi
+
+sleep 0.5
+if [[ "$SIDELOAD" == "1" ]]; then
+  ui_print " " " ! Sideloading Detected, Overriding to Manual Configuration !"
+  configure_manual
+elif [[ -n "$existing_args" ]]; then
+  ui_print "--> Existing cmdline config found : " " "
+  ui_print "--> $existing_args" " "
+  ui_print "--> Autoconfig will use existing cmdline."
+  ui_print "  (Vol +) keep existing"
+  ui_print "  (Vol -) Reconfigure"
+  ui_print ""
+  ui_print "  ! Timeout in 3 seconds, defaults to keep existing"
+  key_event=$(timeout 3 sh -c 'while true; do e=$(getevent -qlc 1 2>/dev/null); [ -n "$e" ] && echo "$e" && break; done')
+  if echo "$key_event" | grep -q "KEY_VOLUMEDOWN"; then
+    ui_print "  Selected : Reconfigure" " "
+    sleep 0.5
+    choose_config_mode
+  else
+    ui_print "  Selected : keep existing config" " "
+    skip_patch_cmdline=1
+  fi
+else
+  choose_config_mode
+fi
+
 ui_print "--> Applying configuration..."
-ui_print " $rom,$dtbo,$dtb,$batt"
-patch_cmdline "e404_args" "e404_args=$rom,$dtbo,$dtb,$batt"
+
+if [[ "$skip_patch_cmdline" != "1" ]]; then
+  ui_print " $rom,$dtbo,$dtb,$batt"
+  patch_cmdline "e404_args" "e404_args=$rom,$dtbo,$dtb,$batt"
+else
+  ui_print " $existing_args"
+fi
 
 write_boot
 
