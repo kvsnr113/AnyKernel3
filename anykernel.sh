@@ -60,7 +60,7 @@ configure_manual() {
   rom_sel="$SELECT_RESULT"
   case "$rom_sel" in
     *AOSP*|*CLO*)
-      [ "$oplus" != "1" ] && rom="rom_aosp"
+      rom="rom_aosp"
       if [[ "$devicename" == "pipa" ]]; then
         dtbo="dtbo_def_pipa"
       else
@@ -68,7 +68,7 @@ configure_manual() {
       fi
       ;;
     *MIUI*|*HyperOS*)
-      [ "$oplus" != "1" ] && rom="rom_oem"
+      rom="rom_oem"
       if [[ "$devicename" == "pipa" ]]; then
         dtbo="dtbo_oem_pipa"
       else
@@ -118,24 +118,14 @@ configure_auto() {
       fi
       ;;
     *)
-      if [[ "$oplus" != "1" ]]; then
-        ui_print "--> AOSP/CLO ROM detected, configuring..."
-        rom="rom_aosp"
-        if [[ "$devicename" == "pipa" ]]; then
-          dtbo="dtbo_def_pipa"
-        else
-          dtbo="dtbo_def"
-        fi
+      ui_print "--> AOSP/CLO ROM detected, configuring..."
+      rom="rom_aosp"
+      if [[ "$devicename" == "pipa" ]]; then
+        dtbo="dtbo_def_pipa"
       else
-        ui_print "--> Oplus Port ROM detected, configuring..."
-        rom="rom_port"
-        if [[ "$devicename" == "pipa" ]]; then
-          dtbo="dtbo_oem_pipa"
-        else
-          dtbo="dtbo_oem"
-        fi
+        dtbo="dtbo_def"
       fi
-      ;;
+     ;;
   esac
 
   sleep 0.5
@@ -233,13 +223,8 @@ patch_vbmeta_flag=auto
 
 if [[ -f /vendor/OemPorts10T.prop ]] ||
   [[ -f /vendor/etc/init/OemPorts10T.rc ]]; then
-  ui_print " ! Detected OPLUS Port ROM by Dandaa !"
-  ui_print " ! Manual Configuration is Recommended !"
-  ui_print " Note : Port ROM Usually Need KernelSU Root !"
-  oplus=1
-else
-  oplus=0
-  # devicecheck (problematc)
+  ui_print " ! OPLUS Port ROM by Dandaa NO LONGER SUPPORTED !"
+  abort " " Unsupported ROM. Aborting..." "
 fi
 
 sleep 0.5
